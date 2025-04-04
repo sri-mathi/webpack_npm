@@ -5,11 +5,12 @@ import { fetchTableNames } from "../../../services/api/api";
 import DashboardCharts from "./DashboardCharts";
 import EmptyDashboard from "../EmptyDashboardPage";
 import { useTableNameStore } from "../../store/tableNameList.store";
+import { useDashboardStore } from "../../store/dashboardState.store";
 
 const DashboardPage = ({ payload, loginData }) => {
   const { handleSubmit } = useLogin();
   const [isGenerate, setIsGenerate] = useState(false);
-  const columnData = undefined;
+  const { columnData } = useDashboardStore();
   const { updateLoading, tableNameData, updateError } = useTableNameStore();
 
   const getData = useCallback(async () => {
