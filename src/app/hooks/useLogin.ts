@@ -3,7 +3,7 @@ import { useAuth } from "./useAuth";
 export const useLogin = () => {
   const { login, errorMessage } = useAuth();
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = (formData: any) => {
     // event.preventDefault();
     // const formData = new FormData(event.currentTarget);
     // const values = {

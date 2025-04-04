@@ -19,7 +19,7 @@ const EmptyDashboard: React.FC<EmptyDashboardProps> = ({
 
   const fetchData = useCallback(async () => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const data = await connectToDatabase(payload);
       console.log("API Response:", data);
 

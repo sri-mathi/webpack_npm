@@ -1,11 +1,14 @@
-import DashboardPage from "./app/pages/Dashboard/index";
+// import React from "react";
+//  import DashboardPage from "./app/pages/Dashboard/index";
+// import { DashboardPage } from "svg-updated";
+import { DashboardPage } from "svg-npmdyn";
 
 const App = () => {
   const payload = {
-    host: "localhost",
-    user: "postgres",
-    password: "calibraint",
-    database: "sample",
+    host: "doworks-testin.c7jrg0h7nzsx.ap-south-1.rds.amazonaws.com",
+    user: "calibraint",
+    password: "Spider$05",
+    database: "CRM-a89b6449-a48f-412c-bcd6-b364272ddfb7",
     port: 5432,
   };
 

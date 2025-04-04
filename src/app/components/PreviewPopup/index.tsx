@@ -135,7 +135,7 @@ const PreviewPopup: React.FC<PreviewPopupProps> = ({ setIsGenerate }) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {data.map((row, i) => (
+                          {data.map((row: any, i:number) => (
                             <tr key={i} className="border border-gray-300">
                               {Object.values(row).map((val, j) => (
                                 <td

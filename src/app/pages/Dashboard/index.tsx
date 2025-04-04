@@ -3,7 +3,8 @@ import { useLogin } from "../../hooks/useLogin";
 import DashboardCharts from "./DashboardCharts";
 import EmptyDashboard from "../EmptyDashboardPage";
 import { useDashboardStore } from "../../store/dashboardState.store";
-interface DashboardPageProps {
+import React from "react";
+export interface DashboardPageProps {
   payload: {
     host: string;
     user: string;
