@@ -16,7 +16,7 @@ const PreviewPopup: React.FC<PreviewPopupProps> = ({ setIsGenerate }) => {
   const { tableName: tableList } = useTableNameStore();
   const { data, tableData, updateError } = useTableDataStore();
 
-  const { setIsFetchingData, setSelectedTables: setGlobalSelectedTables } =
+  const { setIsFetchingData, setColumnData, setSelectedTables: setGlobalSelectedTables } =
     useDashboardStore();
 
   const getData = useCallback(
@@ -61,7 +61,7 @@ const PreviewPopup: React.FC<PreviewPopupProps> = ({ setIsGenerate }) => {
     setIsGenerate(false);
 
     const data = await fetchTableColumnDataTypes(selectedTables);
-    // setColumnData(data);
+    setColumnData(data);
     console.log("column", data);
   };
 

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import amplifyService from "../../services/aws/aws-services";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -15,7 +14,7 @@ interface LoginFormValues {
 export const useAuth = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   // const navigate = useNavigate();
-
+  
   const { setAccessToken, setTenantId } = useAuthStore();
 
   const login = async (values: LoginFormValues) => {
@@ -32,13 +31,18 @@ export const useAuth = () => {
 
         console.log("Successfully completed login");
 
-        const accessToken = cookies.get(
-          "CognitoIdentityServiceProvider.7hte1nkjug6rqsf9air6021aqr.dashboard2%40mailsac.com.accessToken"
-        );
+
+        const getAccessToken = () => {
+          const cookieKeys = Object.keys(cookies.getAll());
+          const accessTokenKey = cookieKeys.find(key => key.endsWith("accessToken"));
+          return accessTokenKey ? cookies.get(accessTokenKey) : null;
+        };
+        
+        const accessToken = getAccessToken();
 
         if (accessToken) {
           console.log("Access Token:", accessToken);
-          setAccessToken(accessToken);
+          setAccessToken(accessToken); 
 
           const response = await axios.get(
             "http://localhost:3000/api/crm/validate-user",
@@ -51,7 +55,7 @@ export const useAuth = () => {
 
           console.log("User validation API call successful:", response.data);
           const tenant_id = response?.data?.data?.defaultWorkspace?.id;
-          console.log("x-tenant-id", tenant_id);
+          console.log("x-tenant-id",tenant_id);
           if (tenant_id) {
             setTenantId(tenant_id);
           }
@@ -60,7 +64,7 @@ export const useAuth = () => {
         } else {
           console.warn("Access token not found in cookies.");
         }
-
+       
         // navigate("/showconnection");
       }
     } catch (e: any) {
@@ -70,5 +74,5 @@ export const useAuth = () => {
     }
   };
 
-  return { login, errorMessage };
+  return { login, errorMessage};
 };

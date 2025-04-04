@@ -1,33 +1,36 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { connectToDatabase } from "../../../services/api/database";
 import { useLogin } from "../../hooks/useLogin";
-import { fetchTableNames } from "../../../services/api/api";
 import DashboardCharts from "./DashboardCharts";
 import EmptyDashboard from "../EmptyDashboardPage";
-import { useTableNameStore } from "../../store/tableNameList.store";
 import { useDashboardStore } from "../../store/dashboardState.store";
+interface DashboardPageProps {
+  payload: {
+    host: string;
+    user: string;
+    password: string;
+    database: string;
+    port: number;
+  };
+  loginData: {
+    email: string;
+    password: string;
+  };
+}
 
-const DashboardPage = ({ payload, loginData }) => {
+
+const DashboardPage: React.FC<DashboardPageProps> = ({ payload, loginData }) => {
   const { handleSubmit } = useLogin();
   const [isGenerate, setIsGenerate] = useState(false);
   const { columnData } = useDashboardStore();
-  const { updateLoading, tableNameData, updateError } = useTableNameStore();
 
   const getData = useCallback(async () => {
-    console.log(loginData);
-
+    console.log("Login Data:", loginData);
     await handleSubmit(loginData);
-    const data = await connectToDatabase(payload);
-    console.log("API Response:", data);
-
-    const tables = await fetchTableNames();
-    console.log("table", tables);
-    tableNameData(tables);
-  }, [payload, loginData]);
+  }, [handleSubmit, loginData]);
 
   useEffect(() => {
     getData();
-  }, [payload]);
+  }, [getData]);
 
   return (
     <div>
@@ -36,12 +39,11 @@ const DashboardPage = ({ payload, loginData }) => {
           <DashboardCharts columnData={columnData} />
         </div>
       ) : (
-        <div className="">
-          <EmptyDashboard
-            isGenerate={isGenerate}
-            setIsGenerate={setIsGenerate}
-          />
-        </div>
+        <EmptyDashboard
+          isGenerate={isGenerate}
+          setIsGenerate={setIsGenerate}
+          payload={payload}
+        />
       )}
     </div>
   );
