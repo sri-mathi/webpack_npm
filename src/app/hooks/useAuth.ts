@@ -58,6 +58,7 @@ export const useAuth = () => {
           console.log("x-tenant-id",tenant_id);
           if (tenant_id) {
             setTenantId(tenant_id);
+            cookies.set("workspaceId",tenant_id);
           }
 
           localStorage.setItem("x-tenant-id", tenant_id);
