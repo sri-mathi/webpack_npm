@@ -1,6 +1,5 @@
 import axios from "axios";
-import useAuthStore from "../../app/store/authStore";
-
+import Cookies from "universal-cookie";
 
 export interface ConnectionPayload {
   host: string;
@@ -12,8 +11,16 @@ export interface ConnectionPayload {
 
 export const connectToDatabase = async (payload: ConnectionPayload) => {
   try {
+    const cookies = new Cookies();
+    const getAccessToken = () => {
+      const cookieKeys = Object.keys(cookies.getAll());
+      const accessTokenKey = cookieKeys.find(key => key.endsWith("accessToken"));
+      return accessTokenKey ? cookies.get(accessTokenKey) : null;
+    };
+    
+    const accessToken = getAccessToken();
 
-    const { accessToken, tenantId } = useAuthStore.getState();
+    const tenantId = cookies.get("workspaceId");
     if (!accessToken) {
       console.error("Missing access token. User must be logged in.");
       throw new Error("User must be logged in");

@@ -1,15 +1,26 @@
 import axios from "axios";
 import useAuthStore from "../../app/store/authStore";
+import Cookies from "universal-cookie";
 
 const API_BASE_URL = "http://localhost:3006";
 
+const cookies = new Cookies();
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
 });
 
 apiClient.interceptors.request.use(
   (config) => {
-    const { accessToken, tenantId } = useAuthStore.getState();
+
+    const getAccessToken = () => {
+      const cookieKeys = Object.keys(cookies.getAll());
+      const accessTokenKey = cookieKeys.find(key => key.endsWith("accessToken"));
+      return accessTokenKey ? cookies.get(accessTokenKey) : null;
+    };
+    
+    const accessToken = getAccessToken();
+
+    const tenantId = cookies.get("workspaceId");
 
     if (accessToken) {
       config.headers["Authorization"] = accessToken;

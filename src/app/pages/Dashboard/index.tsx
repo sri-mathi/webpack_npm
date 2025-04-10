@@ -4,20 +4,7 @@ import DashboardCharts from "./DashboardCharts";
 import EmptyDashboard from "../EmptyDashboardPage";
 import { useDashboardStore } from "../../store/dashboardState.store";
 import React from "react";
-export interface DashboardPageProps {
-  payload: {
-    host: string;
-    user: string;
-    password: string;
-    database: string;
-    port: number;
-  };
-  loginData: {
-    email: string;
-    password: string;
-  };
-}
-
+import { DashboardPageProps } from "./types";
 
 const DashboardPage: React.FC<DashboardPageProps> = ({ payload, loginData }) => {
   const { handleSubmit } = useLogin();
@@ -51,3 +38,4 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ payload, loginData }) => 
 };
 
 export default memo(DashboardPage);
+export type { DashboardPageProps } from "./types";
